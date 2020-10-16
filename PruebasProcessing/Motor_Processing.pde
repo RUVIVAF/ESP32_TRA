@@ -129,7 +129,7 @@ boolean sobreRight(){
 
 
 /*
-*   Dependido en donde está posicionado el mause y si el usuario le da click se manda la información 
+*   Dependido en donde está posicionado el mouse y si el usuario le da click se manda la información 
 *    (una letra), indicando la acción a realizar, al arduino. 
 *   "flag" es una bandera que incialmente esta en falso indicando que el motor esta apagado 
 *    si el usuario presiona el botón de enecendido la bandera cambia a verdadero.
