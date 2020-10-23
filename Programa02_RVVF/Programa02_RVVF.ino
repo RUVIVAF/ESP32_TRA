@@ -18,9 +18,9 @@ int motor1Pin1 = 27;
 int motor1Pin2 = 26; 
 int enable1Pin = 14; 
 
-int motor2Pin1 = 27; 
-int motor2Pin2 = 26; 
-int enable2Pin = 14;
+int motor2Pin1 = 33; 
+int motor2Pin2 = 32; 
+int enable2Pin = 12;
 
 
 // PWM propiedades
