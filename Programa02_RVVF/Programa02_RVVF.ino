@@ -18,8 +18,8 @@ int motor1Pin1 = 27;
 int motor1Pin2 = 26; 
 int enable1Pin = 14; 
 
-int motor2Pin1 = 33; 
-int motor2Pin2 = 32; 
+int motor2Pin1 = 25; 
+int motor2Pin2 = 33; 
 int enable2Pin = 12;
 
 
@@ -50,18 +50,18 @@ void setup() {
 
      pinMode(motor2Pin1, OUTPUT);
     pinMode(motor2Pin2, OUTPUT);
-    pinMode(enabe2Pin,OUTPUT);
+    pinMode(enable2Pin,OUTPUT);
   
     ledcSetup(pwmChannel_A,pwmFreq,pwmRes);
     ledcSetup(pwmChannel_B,pwmFreq,pwmRes);
 
     //Mandar señal PWM al pin enable del puente h
-    ledcAttachPin(enable1Pin,pwmChannel);
-     ledcAttachPin(enable2Pin,pwmChannel);
+    ledcAttachPin(enable1Pin,pwmChannel_A);
+     ledcAttachPin(enable2Pin,pwmChannel_B);
 
     //Velocidad del motor
-    ledcWrite(pwmChanne_A,vel);
-    ledcWrite(pwmChannel_B,vel);
+    ledcWrite(pwmChannel_A,vel_A);
+    ledcWrite(pwmChannel_B,vel_B);
 }
 
 
