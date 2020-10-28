@@ -14,26 +14,23 @@
  */
  
 //Pines del motor
-int motor1Pin1 = 27; 
-int motor1Pin2 = 26; 
-int enable1Pin = 14; 
-
-int motor2Pin1 = 33; 
-int motor2Pin2 = 32; 
-int enable2Pin = 12;
-
+int DIR_A = 27; 
+int DIR_B = 26;
+int PWM_A= 14;
+int PWM_B= 12;
 
 // PWM propiedades
 int pwmFreq = 8000; 
 int pwmChannel_A = 0;   
-int pwmChannel_B = 0;  
+int pwmChannel_B = 1;  
 int pwmRes = 8; //Resolución de 8 bits
 
+/*
 //Variables de velocidad y dirección
     int vel_A = 255;  // Con un ciclo de trabajo  del 100%
     int vel_B = 255;  // Con un ciclo de trabajo  del 100%
     int dir_A= 0;
-    int dir_B= 0;
+    int dir_B= 0;*/
 
 // Variable que guardará el 'estado' del los motores.
 char estado = 's'; //--> Inicialmente el valor de la variable es el de tenido.
@@ -48,24 +45,22 @@ char estado = 's'; //--> Inicialmente el valor de la variable es el de tenido.
 void setup() {
     Serial.begin(115200);
     
-    pinMode(motor1Pin1, OUTPUT);
-    pinMode(motor1Pin2, OUTPUT);
-    pinMode(enable1Pin,OUTPUT);
+    pinMode(PWM_A, OUTPUT);
+    pinMode(PWM_B, OUTPUT);
+ 
 
-    pinMode(motor2Pin1, OUTPUT);
-    pinMode(motor2Pin2, OUTPUT);
-    pinMode(enabe2Pin,OUTPUT);
-  
+    pinMode(DIR_A, OUTPUT);
+    pinMode(DIR_B, OUTPUT);
+
+    digitalWrite(PWM_A,HIGH);
+    digitalWrite(PWM_B,HIGH);
+
     ledcSetup(pwmChannel_A,pwmFreq,pwmRes);
     ledcSetup(pwmChannel_B,pwmFreq,pwmRes);
 
-    //Mandar señal PWM al pin enable del puente h
-    ledcAttachPin(enable1Pin,pwmChannel);
-     ledcAttachPin(enable2Pin,pwmChannel);
-
-    //Velocidad del motor
-    ledcWrite(pwmChanne_A,vel);
-    ledcWrite(pwmChannel_B,vel);
+   
+    ledcAttachPin(DIR_A,pwmChannel_A);
+    ledcAttachPin(DIR_B,pwmChannel_B);
 }
 
 
@@ -82,14 +77,8 @@ void loop() {
  */
  
 void adelante(){
-  dir_A = 0;
-  dir_B = dir_A;
-  digitalWrite(motor1Pin1,dir_A);
-  digitalWrite(motor2Pin1,dir_B);
-  dir_A = 1;
-  dir_B = dir_A;
-  digitalWrite(motor1Pin2,dir_A);
-  digitalWrite(motor2Pin2,dir_B);
+  ledcWrite(DIR_A, 127);
+  ledcWrite(DIR_B, 225); 
 }
 
 /*
@@ -98,14 +87,8 @@ void adelante(){
  */
 
 void atras(){
-  dir_A = 1;
-  dir_B = dir_A;
-  digitalWrite(motor1Pin1,dir_A);
-  digitalWrite(motor2Pin1,dir_B);
-  dir_A = 0;
-  dir_B = dir_A;
-  digitalWrite(motor1Pin2,dir_A);
-  digitalWrite(motor2Pin2,dir_B);
+  ledcWrite(DIR_A, 225);
+  ledcWrite(DIR_B, 127); 
 }
 
 
@@ -115,12 +98,8 @@ void atras(){
  */
  
 void detener(){
-  dir_A = 0;
-  dir_B = dir_B;
-  digitalWrite(motor1Pin1,dir_A);
-  digitalWrite(motor2Pin1,dir_B);
-  digitalWrite(motor1Pin2,dir_A);
-  digitalWrite(motor2Pin2,dir_B);
+  ledcWrite(DIR_A, 225);
+  ledcWrite(DIR_B, 225);
 }
 
 
@@ -131,13 +110,9 @@ void detener(){
  */
 
 void izquierda(){
-  dir_A = 0;
-  dir_B= dir_A;
-  digitalWrite(motor1Pin1,dir_A);
-  digitalWrite(motor1Pin2,dir_A);
-  digitalWrite(motor2Pin1,dir_B);
-  dir_B = 1;
-  digitalWrite(motor2Pin2,dir_B);
+  //¿?
+  ledcWrite(DIR_A, 225);
+  ledcWrite(DIR_B, 225);
  }
 
 /*
@@ -146,14 +121,7 @@ void izquierda(){
  *  dir_B = 0 y 0
  */
 void derecha(){
-  dir_A = 0;
-  digitalWrite(motor1Pin1,dir_A);
-  dir_A = 1;
-  digitalWrite(motor1Pin2,dir_A);
-  
-  dir_B = 0;
-  digitalWrite(motor2Pin1,dir_B);
-  digitalWrite(motor2Pin2,dir_B);
+  //¿?
  }
 
 
@@ -182,6 +150,6 @@ void movimiento(char _estado){
       izquierda();
     }else if(_estado == 's'){
       Serial.println("Movimiento detenido");
-      detenido();
+      detener();
     }
  }

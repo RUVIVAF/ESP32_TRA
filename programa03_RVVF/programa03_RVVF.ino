@@ -26,7 +26,7 @@ int enable2Pin = 12;
 // PWM propiedades
 int pwmFreq = 8000; //Periodo de 8ms
 int pwmChannel_A = 0;   
-int pwmChannel_B = 0;  
+int pwmChannel_B = 1;  
 int pwmRes = 8; //Resolución de 8 bits (2^8 = 254)
 
 //Variables de velocidad y dirección
@@ -54,18 +54,18 @@ void setup() {
 
      pinMode(motor2Pin1, OUTPUT);
     pinMode(motor2Pin2, OUTPUT);
-    pinMode(enabe2Pin,OUTPUT);
+    pinMode(enable2Pin,OUTPUT);
   
     ledcSetup(pwmChannel_A,pwmFreq,pwmRes);
     ledcSetup(pwmChannel_B,pwmFreq,pwmRes);
 
     //Mandar señal PWM al pin enable del puente h
-    ledcAttachPin(enable1Pin,pwmChannel);
-     ledcAttachPin(enable2Pin,pwmChannel);
+    ledcAttachPin(enable1Pin,pwmChannel_A);
+     ledcAttachPin(enable2Pin,pwmChannel_B);
 
     //Velocidad del motor
-    ledcWrite(pwmChanne_A,vel);
-    ledcWrite(pwmChannel_B,vel);
+    ledcWrite(pwmChannel_A,vel_A);
+    ledcWrite(pwmChannel_B,vel_B);
 }
 
 
@@ -182,7 +182,7 @@ void movimiento(char _estado){
       izquierda();
     }else if(_estado == 's'){
       Serial.println("Movimiento detenido");
-      detenido();
+      detener();
     }
  }
 
