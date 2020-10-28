@@ -1,7 +1,7 @@
-
 /*
  * Ruiz Villalba Valentina Fabienne
- * Prueba programa 03 con puente H
+ * Prueba programa 03 con Cytron MDD10A 
+ * --> Tipo de control Locked-Antiphase PWM
  * Octubre 2020
  * ESP32 TRA 
  */
@@ -24,10 +24,10 @@ int enable2Pin = 12;
 
 
 // PWM propiedades
-int pwmFreq = 8000; //Periodo de 8ms
+int pwmFreq = 8000; 
 int pwmChannel_A = 0;   
 int pwmChannel_B = 0;  
-int pwmRes = 8; //Resolución de 8 bits (2^8 = 254)
+int pwmRes = 8; //Resolución de 8 bits
 
 //Variables de velocidad y dirección
     int vel_A = 255;  // Con un ciclo de trabajo  del 100%
@@ -52,7 +52,7 @@ void setup() {
     pinMode(motor1Pin2, OUTPUT);
     pinMode(enable1Pin,OUTPUT);
 
-     pinMode(motor2Pin1, OUTPUT);
+    pinMode(motor2Pin1, OUTPUT);
     pinMode(motor2Pin2, OUTPUT);
     pinMode(enabe2Pin,OUTPUT);
   
@@ -185,7 +185,3 @@ void movimiento(char _estado){
       detenido();
     }
  }
-
-
-
-  

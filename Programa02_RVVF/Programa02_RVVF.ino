@@ -48,7 +48,7 @@ void setup() {
     pinMode(motor1Pin2, OUTPUT);
     pinMode(enable1Pin,OUTPUT);
 
-     pinMode(motor2Pin1, OUTPUT);
+    pinMode(motor2Pin1, OUTPUT);
     pinMode(motor2Pin2, OUTPUT);
     pinMode(enable2Pin,OUTPUT);
   
@@ -67,11 +67,17 @@ void setup() {
 
 void loop() {
   adelante();
+  delay(1000);
   derecha();
+  delay(1000);
   detener();
+  delay(500);
   atras();
+  delay(1000);
   izquierda();
+  delay(1000);
   detener();
+  delay(500);
 }
 
 
@@ -88,7 +94,6 @@ void adelante(){
   dir_B = dir_A;
   digitalWrite(motor1Pin2,dir_A);
   digitalWrite(motor2Pin2,dir_B);
-  delay(1000);
 }
 
 /*
@@ -106,7 +111,6 @@ void atras(){
   dir_B = dir_A;
   digitalWrite(motor1Pin2,dir_A);
   digitalWrite(motor2Pin2,dir_B);
-  delay(1000);
 }
 
 
@@ -121,7 +125,6 @@ void detener(){
   Serial.println("Detenido");
   digitalWrite(motor1Pin1,dir_A);
   digitalWrite(motor2Pin1,dir_B);
-  delay(500);
 }
 
 
@@ -141,7 +144,6 @@ void izquierda(){
   
   dir_B = 1;
   digitalWrite(motor2Pin2,dir_B);
-  delay(1000);
  }
 
 /*
@@ -160,5 +162,4 @@ void derecha(){
   dir_B = 0;
   digitalWrite(motor2Pin1,dir_B);
   digitalWrite(motor2Pin2,dir_B);
-  delay(1000);
   }

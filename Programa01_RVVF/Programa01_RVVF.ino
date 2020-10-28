@@ -52,8 +52,11 @@ void setup() {
 
 void loop() {
   adelante();
+  delay(1000);
   detener();
+  delay(500);
   atras();
+  delay(1000);
   detener();
 }
 
@@ -68,7 +71,6 @@ void adelante(){
   digitalWrite(motor1Pin1,dir);
    dir = 1;
   digitalWrite(motor1Pin2,dir);
-  delay(1000);
 }
 
 /*
@@ -82,7 +84,6 @@ void atras(){
   digitalWrite(motor1Pin1,dir);
   dir = 0;
   digitalWrite(motor1Pin2,dir);
-  delay(1000);
 }
 
 void detener(){
@@ -90,5 +91,4 @@ void detener(){
   Serial.println("Detenido");
   digitalWrite(motor1Pin1,dir);
   digitalWrite(motor1Pin2,dir);
-  delay(500);
 }
