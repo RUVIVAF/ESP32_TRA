@@ -1,4 +1,4 @@
-# Trabajo con la tarjeta Cytron MDD10A 
+### Trabajo con la tarjeta Cytron MDD10A 
 ***
 
 Para controlar los motores con las señales PWM se utilizó el tipo de control 
