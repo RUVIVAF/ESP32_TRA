@@ -26,3 +26,7 @@ PWM
 - https://circuitdigest.com/microcontroller-projects/esp32-pwm-tutorial-controlling-brightness-of-led
 - https://randomnerdtutorials.com/esp32-dc-motor-l298n-motor-driver-control-speed-direction/
 
+Interrupciones 
+
+-https://lastminuteengineers.com/handling-esp32-gpio-interrupts-tutorial/
+
