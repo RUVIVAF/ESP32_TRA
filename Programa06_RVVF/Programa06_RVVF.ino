@@ -1,7 +1,7 @@
 /*
  * Ruiz Villalba Valentina Fabienne
- * Prueba programa 05 con Cytron MDD10A 
- * --> Uso de encoders / Una sola vuelta en sentido antihorario / lectura haciendo uso de interrupciones
+ * Prueba programa 06 con Cytron MDD10A 
+ * --> Uso de encoders / Giro y ángulo / lectura haciendo uso de interrupciones
  * --> Tipo de control Locked-Antiphase PWM
  * Noviembre 2020
  * ESP32 TRA 
@@ -19,10 +19,13 @@ int DIR_A = 17; //---> Derecho
 int DIR_B = 16; //---> Izquierdo
 
 //Pin interrupción --> Señal encoder motor A
-int pinInt = 21;
+int pinIntA = 21;
+
+//Pin interrupción --> Señal encoder motor A2
+int pinIntA2 = 3;
 
 //Numero de cuentas de revolución (pulsos del encoder)*(Relación de reducción)
-int numRev = 1188;
+int numRev = 4752;
 
 // PWM propiedades
 int pwmFreq = 8000; 
@@ -40,13 +43,17 @@ int pwmRes = 8; //Resolución de 8 bits
  * 
  * Nota: Se recomienda no tomar los valores máximos (0, 255)
  */
-
     int vel_1 = 190;  
     int vel_2 = 64;  
     int vel_Stop=127;
   
-// Variable que hará el conteo del cambio en los endoders
-int cont = 0;
+// Variable que hará el conteo del cambio en los dos canales
+int contA = 0;
+int contA2 = 0;
+
+//ángulo
+float angle = 0;
+
 
 /*
  *------------------------------------ 
@@ -68,13 +75,11 @@ void setup() {
     ledcSetup(pwmChannel_B,pwmFreq,pwmRes);
 
     //Se define el pin con interrupción de acuerdo a -->  attachInterrupt(GPIOPin, ISR, Mode) <--
-     attachInterrupt(pinInt, isr, RISING);
-    
-}
-
+     attachInterrupt(pinIntA, isrA, RISING);
+     //attachInterrupt(pinIntA2, isrA2, RISING);
+} 
 
 void loop() {
-  displayCont();
   contRevol();
 }
 
@@ -87,41 +92,67 @@ void loop() {
 
 
 /*
- * Giro del motor de la derecha
- *  
+ * Función de interrupción ISR (Interrupt Service Routine)
+ * Si los contadores son distintos significa que el giro es en sentido horario y si
+ * contA y contB son iguales indica un giro en sentido antihorario
  */
  
-void movDerecha(){
+void isrA(){
+  if (digitalRead(pinIntA2) == 1){
+    angle = (contA*360)/numRev;
+    Serial.println("El motor gira en sentido antihorario");
+    contaA ++;
+  }else if(digitalRead(pinIntA2) == 0){
+    contA --;
+    angle = (contA*360)/numRev;
+  }
+    Serial.print("El ángulo es: ");
+    Serial.println(angle);
+    Serial.println("--------------------------------------------");
+ }
+
+
+/*
+ * Giro en sentido antihorario  
+ */
+ 
+void mov_CCW(){
   ledcWrite(pwmChannel_A, vel_1);
 }
+
+/*
+ * Giro en sentido horario
+ */
+ 
+void mov_CW(){
+  ledcWrite(pwmChannel_A, vel_2);
+}
+
+/*
+ * Detiene el movimiento
+ *  
+ */
+void detener(){
+  ledcWrite(pwmChannel_A,vel_Stop);
+}
+
 
 /*
  * Detiene al motor a una revolución 
  */
 
  void contRevol(){
-    if(cont <= numRev){
-      movDerecha();
-     }else{
-      ledcWrite(pwmChannel_A,vel_Stop); //Detiene al motor
-      }
-  }
-
-/*
- * Función de interrupción ISR (Interrupt Service Routine)
- */
- void isr(){
-  cont += 1; 
+    if(angle < 360){
+      mov_CCW();
+     }else if(angle >= 360){
+      detener();
+      delay(1000);
+      mov_CW();
+     }else if(angle <= 0){
+      detener();
+      contA = 0;
+     }
  }
-
- /*
-  * Imprime el contador
-  */
-
-  void displayCont(){
-    Serial.println(cont);
-    Serial.println("-----------------------------");
-   }
 
 
  

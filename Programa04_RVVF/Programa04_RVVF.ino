@@ -18,8 +18,7 @@
 int DIR_A = 17; //---> Derecho
 int DIR_B = 16; //---> Izquierdo
 
-//Pin interrupción 
-
+//Pin interrupción --> Señal encoder motor A
 int pinInt = 21;
 
 // PWM propiedades
