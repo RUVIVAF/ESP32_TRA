@@ -24,7 +24,8 @@ int pinIntA = 21;
 //Pin interrupción --> Señal encoder motor A2
 int pinIntA2 = 3;
 
-//Numero de cuentas de revolución (pulsos del encoder)*(Relación de reducción)
+//Numero de cuentas de revolución (pulsos del encoder)*(Relación de reducción) 
+// Como son dos canales se tomo los pulsos de los dos encoders
 int numRev = 4752;
 
 // PWM propiedades
@@ -76,7 +77,6 @@ void setup() {
 
     //Se define el pin con interrupción de acuerdo a -->  attachInterrupt(GPIOPin, ISR, Mode) <--
      attachInterrupt(pinIntA, isrA, RISING);
-     //attachInterrupt(pinIntA2, isrA2, RISING);
 } 
 
 void loop() {
