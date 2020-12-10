@@ -26,7 +26,7 @@ int pinIntA2 = 3;
 
 //Numero de cuentas de revolución (pulsos del encoder)*(Relación de reducción) 
 // Como son dos canales se tomo los pulsos de los dos encoders
-int numRev = 4752;
+int numRev = 1188;
 
 // PWM propiedades
 int pwmFreq = 8000; 
@@ -50,12 +50,13 @@ int pwmRes = 8; //Resolución de 8 bits
   
 // Variable que hará el conteo del cambio en los dos canales
 int contA = 0;
-int contA2 = 0;
 
 //ángulo
 float angle = 0;
 
+//Bandera sentido giro
 
+bool isCCW = false;
 /*
  *------------------------------------ 
  *        Funciones principales
@@ -81,6 +82,13 @@ void setup() {
 
 void loop() {
   contRevol();
+
+  /*if(contA <= numRev){
+      mov_CCW();
+     }else{
+      mov_CW();
+     }*/
+
 }
 
 
@@ -99,16 +107,19 @@ void loop() {
  
 void isrA(){
   if (digitalRead(pinIntA2) == 1){
+    isCCW = true;
+     contA ++;
     angle = (contA*360)/numRev;
     Serial.println("El motor gira en sentido antihorario");
-    contaA ++;
   }else if(digitalRead(pinIntA2) == 0){
+    isCCW = false;
     contA --;
     angle = (contA*360)/numRev;
   }
-    Serial.print("El ángulo es: ");
+    /*Serial.print("El ángulo es: ");
     Serial.println(angle);
-    Serial.println("--------------------------------------------");
+    Serial.println("--------------------------------------------");*/
+    Serial.println(contA);
  }
 
 
@@ -142,17 +153,16 @@ void detener(){
  */
 
  void contRevol(){
-    if(angle < 360){
+    if(angle < 360 && isCCW == true){
       mov_CCW();
-     }else if(angle >= 360){
+     }else if(angle >= 360 && isCCW == false){
       detener();
       delay(1000);
       mov_CW();
-     }else if(angle <= 0){
+     }else if(angle <= 0 && isCCW == false){
       detener();
       contA = 0;
      }
  }
-
 
  
